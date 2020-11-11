@@ -1,7 +1,7 @@
 <template>
   <div class="movie_body" ref="movie_body">
     <!-- <Loading v-if="isLoading" /> -->
-    <!-- <scroll> -->
+    <scroll>
       <ul>
         <!-- <li>
           <div class="pic_show"><img src="/images/movie_1.jpg" /></div>
@@ -14,9 +14,9 @@
           <div class="btn_mall">购票</div>
         </li> -->
          <li v-for="item in movieList" :key="item.id">
-          <div class="pic_show" @tap="handleToDetail(item.id)"><img :src="item.img | setWH('128.180')"></div>
-          <div class="info_list">
-              <h2 @tap="handleToDetail(item.id)">{{ item.nm }} <img v-if="item.version" :src="item.poster" alt=""></h2>
+          <div class="pic_show" @click="handleToDetail(item.id)"><img :src="item.img | setWH('128.180')"></div>
+          <div class="info_list" @click="handleToDetail(item.id)">
+              <h2 >{{ item.nm }} <img v-if="item.version" :src="item.poster" alt=""></h2>
               <p>观众评 <span class="grade">{{ item.sc }}</span></p>
               <p>主演: {{  item.star }}</p>
               <p>{{ item.showInfo }}</p>
@@ -26,7 +26,8 @@
           </div>
       </li>
       </ul> 
-    <!-- </scroll> -->
+
+    </scroll>
   </div>
 </template>
 
@@ -34,8 +35,10 @@
 import Vue from 'vue'
 import axios from "axios";
 import MovieItem from "./childcom/MovieItem";
-// import Scroll from '../../common/Scroll/Scroll'
-import BScroll from 'better-scroll'
+
+
+import Scroll from '../../common/Scroll/Scroll'
+// import BScroll from 'better-scroll'
 export default {
   name: "NowPlaying",
   data() {
@@ -43,9 +46,10 @@ export default {
       movieList: [],
     };
   },
+
   components: {
     MovieItem,
-  // Scroll
+  Scroll
   },
   mounted() {
     axios({
@@ -60,7 +64,11 @@ export default {
       //   console.log(scroll);
       // })
     })},
-  methods: {},
+  methods: {
+    handleToDetail(movieId) {
+      this.$router.push('/movie/detail/1/' + movieId)
+    }
+  },
 
 };
 

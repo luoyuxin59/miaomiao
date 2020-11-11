@@ -1,6 +1,6 @@
 <template>
   <div class="movie_body" ref="movie_body">
-    <!-- <scroll> -->
+    <scroll>
       <ul>
         <!-- <li>
                     <div class="pic_show"><img src="/images/movie_1.jpg"></div>
@@ -15,11 +15,11 @@
                     </div>
                 </li> -->
         <li v-for="item in comingList" :key="item.id">
-          <div class="pic_show" @tap="handleToDetail(item.id)">
+          <div class="pic_show" @click="handleToDetail(item.id)">
             <img :src="item.img | setWH('128.180')" />
           </div>
-          <div class="info_list">
-            <h2 @tap="handleToDetail(item.id)">
+          <div class="info_list" @click="handleToDetail(item.id)">
+            <h2 >
               {{ item.nm }} <img v-if="item.version" alt="" />
             </h2>
             <p>
@@ -31,14 +31,14 @@
           <div class="btn_pre">预售</div>
         </li>
       </ul>
-    <!-- </scroll> -->
+    </scroll>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
-import MovieItem from "../../../components/common/NowPlaying/childcom/MovieItem";
+import Scroll from '@/components/common/Scroll/Scroll'
+import MovieItem from "@/components/common/NowPlaying/childcom/MovieItem";
 
 export default {
   name: "CommingSonn",
@@ -49,7 +49,7 @@ export default {
     };
   },
   components: {
- 
+    Scroll,
     MovieItem,
   },
   mounted() {
@@ -60,13 +60,18 @@ export default {
       console.log(this.comingList);
     });
   },
-  methods: {},
+  methods: {
+    handleToDetail(movieId) {
+      this.$router.push('/movie/detail/2/' + movieId)
+    }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 #content .movie_body {
-  flex: 1;
+  // flex: 1;
+  height: 350px;
   overflow: auto;
 }
 .movie_body ul {

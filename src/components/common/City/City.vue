@@ -35,6 +35,9 @@ export default {
      
     }
   },
+  components: {
+   
+  },
   mounted() {
     // 取出本地数据 
     var citylist = window.localStorage.getItem('city')
@@ -48,7 +51,6 @@ export default {
       headers:{
         'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"15610855429195524981146"}',
         'X-Host': 'mall.film-ticket.city.list'
-
       }
    }).then(res => {
      console.log(res);

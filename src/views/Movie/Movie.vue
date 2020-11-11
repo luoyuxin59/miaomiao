@@ -24,7 +24,7 @@
       </keep-alive>
     </div>
     <TabBar />
-    <router-view name="detail" />
+   <router-view name="detail" />
   </div>
 </template>
 
@@ -32,6 +32,7 @@
 import Header1 from "@/components/common/Header/Header1";
 import TabBar from "@/components/common/TabBar/TabBar";
 import NavBar from "@/components/common/NavBar/NavBar";
+import {messageBox} from '../../JS/index'
 
 export default {
   name: "Movie",
@@ -39,6 +40,38 @@ export default {
     Header1,
     TabBar,
   },
+  mounted() {
+    setTimeout(() => {
+      this.axios.get('http://ip-api.com/json/?lang=zh-CN').then(res => {
+        console.log(res);
+        var msg = res.data
+        var nm = msg.regionName
+        if( this.$store.state.city.nm == nm) {return}
+        messageBox({
+          title: '定位',
+          content: msg.regionName,
+          cancel: '取消',
+          ok: '切换定位',
+          handleOk(){
+           var city = window.localStorage.getItem('city')
+           var citylist =JSON.parse(city)
+           for(var i = 0; i< citylist.length; i++){
+             for(var j = 0; j< citylist[i].list.length; j++){
+              //  console.log(citylist[i].list[j]);
+               if( msg.regionName == citylist[i].list[j].name) {
+                 var id = citylist[i].list[j].cityId
+                window.localStorage.setItem('nowNm', nm)
+                window.localStorage.setItem('nowId', id)
+                window.location.reload(); 
+               }
+             }
+           }
+      }
+    }) 
+      })
+    },2000)
+  
+  }
 };
 </script>
 
